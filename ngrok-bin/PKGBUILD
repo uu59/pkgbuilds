@@ -1,0 +1,18 @@
+# Maintainer: uu59 <k@uu59.org>
+
+pkgname=ngrok-bin
+pkgver=1.6
+pkgrel=1
+arch=('any')
+license=('MIT')
+url="https://ngrok.com/download"
+source=('https://dl.ngrok.com/linux_386/ngrok.zip')
+md5sums=('b1c892896a684a205da7eb40c68faddf')
+
+conflicts=('ngrok', 'ngrok-git')
+provides=('ngrok')
+
+package() {
+  mkdir -p $pkgdir/bin/
+  cp -a ngrok $pkgdir/bin/
+}
