@@ -1,0 +1,17 @@
+# Maintainer: uu59 <k@uu59.org>
+
+pkgname=hashicorp-vault
+pkgver=0.1.1
+pkgrel=1
+arch=('x86_64')
+license=('MPL')
+url="https://www.vaultproject.io/downloads.html"
+source=(https://dl.bintray.com/mitchellh/vault/vault_${pkgver}_linux_amd64.zip)
+sha256sums=('856a9c89bada1b8007d85dd2ccd81bb19414691a7e16476282cf1acd920c484a')
+
+provides=('vault')
+
+package() {
+  mkdir -p $pkgdir/usr/bin/
+  mv vault $pkgdir/usr/bin/
+}
