@@ -1,0 +1,46 @@
+# Maintainer: uu59 <k@uu59.org>
+
+pkgname=h2o-stable
+pkgrel=1
+pkgver=2.0.6
+arch=('any')
+license=()
+url="https://github.com/h2o/h2o/releases"
+makedepends=('cmake' 'libtool' 'make')
+source=($pkgname-$pkgver.tar.gz::https://github.com/h2o/h2o/archive/v$pkgver.tar.gz)
+# source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/h2o/$pkgname/tar.gz/v$pkgver
+#         h2o.service)
+sha256sums=('bf4f2dc3b2f1a6886eb7ee6487cb6ba4b206700055a1d2ca9c2a99a82d21055b')
+
+conflicts=()
+provides=('h2o' 'libh2o')
+
+build() {
+  cd "$srcdir/h2o-$pkgver"
+
+  msg2 'Building...'
+  cmake \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    .
+  make
+  make libh2o
+}
+
+package() {
+  cd "$srcdir/h2o-$pkgver"
+
+  msg2 'Installing license...'
+  install -Dm 644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+
+  # msg2 'Installing systemd service...'
+  # install -Dm 644 "$srcdir/h2o.service" "$pkgdir/usr/lib/systemd/system/h2o.service"
+
+  # msg2 'Installing conf file...'
+  # install -Dm 644 examples/h2o/h2o.conf "$pkgdir/etc/h2o.conf"
+
+  msg2 'Installing...'
+  make DESTDIR="$pkgdir" install
+}
